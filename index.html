@@ -54,16 +54,38 @@
       height: 360px;
       border-radius: 15px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      object-fit: fill; /* ép lấp đầy khung */
     }
     p {
       font-size: 18px;
       color: #333;
       margin-top: 15px;
     }
+
+    /* Chữ dọc bên trái */
+    .scroll-hint {
+      position: fixed;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      transform-origin: left top;
+      font-size: 16px;
+      color: white;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+      opacity: 0.8;
+      letter-spacing: 2px;
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 0.3; }
+    }
   </style>
 </head>
 <body>
   <h1>Nhóm Toàn, Thịnh, Hoàng, Nguyễn Tuấn</h1>
+
   <div class="gallery">
     <div class="card">
       <img src="toan.jpg" alt="Toan">
@@ -71,8 +93,10 @@
     </div>
   </div>
 
+  <div class="scroll-hint">cuộn xuống low quality ↓</div>
+
   <div class="bottom-section">
-    <video id="secretVideo" muted playsinline>
+    <video id="secretVideo" playsinline controls>
       <source src="video.mp4" type="video/mp4">
       Trình duyệt của bạn không hỗ trợ video.
     </video>
@@ -83,7 +107,7 @@
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          video.play();
+          video.play().catch(() => {});
           document.body.style.overflow = 'hidden'; // khóa cuộn khi thấy video
         } else {
           video.pause();
