@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Nhóm Toàn, Thịnh, Hoàng, Nguyễn Tuấn</title>
 <style>
-body{font-family:Arial;margin:0;text-align:center;background:linear-gradient(45deg,#89f7fe,#66a6ff);min-height:600vh}
+body{font-family:Arial;margin:0;text-align:center;background:linear-gradient(45deg,#89f7fe,#66a6ff);min-height:1000vh}
 h1{color:#fff;text-shadow:2px 2px 4px #0004;margin-top:40px}
 .card{background:#fff9;padding:20px;border-radius:15px;display:inline-block;box-shadow:0 8px 16px #0003;margin-top:50px}
 img{width:200px;height:200px;border-radius:10px;object-fit:cover}
 .scroll-hint{position:fixed;left:10px;top:50%;transform:rotate(-90deg);color:#fff;font-weight:bold;animation:blink 1s infinite}
 @keyframes blink{50%{opacity:.3}}
-.bottom{margin-top:300vh;display:flex;justify-content:center;align-items:center;flex-direction:column}
+.bottom{margin-top:500vh;display:flex;justify-content:center;align-items:center;flex-direction:column;padding-bottom:200vh}
 video{width:640px;height:360px;border-radius:15px;box-shadow:0 8px 20px #0003;object-fit:fill}
 </style>
 </head>
@@ -29,14 +29,21 @@ video{width:640px;height:360px;border-radius:15px;box-shadow:0 8px 20px #0003;ob
 </div>
 <script>
 const v=document.getElementById('v');
-new IntersectionObserver(e=>{
-  if(e[0].isIntersecting){
-    v.play().catch(()=>{});
-    setTimeout(()=>document.body.style.overflow='hidden',500);
-  }else v.pause();
-},{threshold:.5}).observe(v);
+const observer=new IntersectionObserver(e=>{
+  e.forEach(ent=>{
+    if(ent.isIntersecting){
+      v.play().then(()=>{
+        document.body.style.overflow='hidden';
+        window.scrollTo({top:ent.target.offsetTop,behavior:"smooth"});
+      }).catch(()=>{});
+    }else v.pause();
+  });
+},{threshold:0.6});
+observer.observe(v);
 v.onended=()=>document.body.style.overflow='auto';
 </script>
 </body>
 </html>
+
+
 
